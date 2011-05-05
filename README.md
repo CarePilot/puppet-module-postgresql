@@ -33,15 +33,21 @@ Usage
 
 To install and configure PostgreSQL, include the module:
 
-    include postgresql
+    include postgresql::server
 
 You can override defaults in the PostgreSQL config by including
 the module with this special syntax:
 
-    class { postgresql: listen_addresses => 'localhost',
+    class { "postgresql::server": version => "8.4",
+                        listen_addresses => 'localhost',
                         max_connections => 100,
                         shared_buffers => '24MB',
     }
+
+If you need language specific PostgreSQL modules include their class:
+
+    include postgresql::python
+    include postgresql::ruby
 
 Creating a database is done with the `postgresql::database` resource:
 
