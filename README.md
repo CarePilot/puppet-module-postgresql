@@ -49,8 +49,17 @@ If you need language specific PostgreSQL modules include their class:
     include postgresql::python
     include postgresql::ruby
 
-Creating a database is done with the `postgresql::database` resource:
+Creating a database is done with the `postgresql::database` resource. If
+the owner does not exist it is created:
 
     postgresql::database { "blog":
       owner => "bloguser",
+    }
+
+Note that you'll need to define a global search path for the `exec`
+resource to make the `postgresql::database` resource function
+properly. This should ideally be placed in `manifests/site.pp`:
+
+    Exec {
+      path => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     }
