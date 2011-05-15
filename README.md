@@ -10,7 +10,7 @@ operating systems welcome.
 TODO
 ----
 
-* Actual implementation.
+* Ability to configure authentication settings.
 
 
 Installation
