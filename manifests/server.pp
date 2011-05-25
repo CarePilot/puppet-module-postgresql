@@ -31,7 +31,7 @@ class postgresql::server($version="8.4",
     require => Package[postgresql],
   }
 
-  service { "postgresql":
+  service { $service_name:
     ensure => running,
     enable => true,
     hasstatus => true,
