@@ -5,7 +5,7 @@ class postgresql::user($ensure=present,$owner='test') {
   if $ensure == 'present' {
 
     exec { "createuser $owner":
-      command => "createuser --superuser --createdb --no-createrole ${owner}",
+      command => "createuser --superuser --createdb --createrole ${owner}",
       user => "postgres",
       unless => $userexists,
     }
