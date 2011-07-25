@@ -1,7 +1,8 @@
 define postgresql::database($owner, $ensure=present) {
   $dbexists = "psql -ltA | grep '^$name|'"
 
-  postgresql::user { $owner:
+  class { "postgresql::user":
+    owner  => $owner,
     ensure => $ensure,
   }
 
