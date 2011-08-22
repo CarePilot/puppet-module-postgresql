@@ -49,11 +49,11 @@ password_encryption = on
 
 # - Memory -
 
-shared_buffers = <%= memorysize_mb * 0.25 %>MB
-temp_buffers = <%= memorysize_mb * 0.01 %>MB
+shared_buffers = <%= memorysize_mb.to_i * 0.25 %>MB
+temp_buffers = <%= memorysize_mb.to_i * 0.01 %>MB
 
-work_mem = <%= memorysize_mb * 0.05 %>MB # possibly duplicated memory use
-maintenance_work_mem = <%= memorysize_mb * 0.15 %>MB
+work_mem = <%= memorysize_mb.to_i * 0.05 %>MB # possibly duplicated memory use
+maintenance_work_mem = <%= memorysize_mb.to_i * 0.15 %>MB
 max_stack_depth = <%= stack_depth.to_i - 1000 %>kB
 
 # - Asynchronous Behavior -
@@ -89,7 +89,7 @@ archive_mode = off
 
 # - Planner Cost Constants -
 
-effective_cache_size = <%= memorysize_mb * 0.66 %>MB
+effective_cache_size = <%= memorysize_mb.to_i * 0.66 %>MB
 
 # - Other Planner Options -
 
