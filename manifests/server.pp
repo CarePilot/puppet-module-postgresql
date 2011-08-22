@@ -34,7 +34,6 @@ class postgresql::server($version="9.0",
   file { "pg_hba.conf":
     path => "/etc/postgresql/${version}/main/pg_hba.conf",
     source => "puppet:///modules/postgresql/pg_hba.conf",
-    mode => 640,
     require => Package[$postgresql],
   }
 
