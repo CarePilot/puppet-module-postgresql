@@ -24,7 +24,7 @@ external_pid_file = '/var/run/postgresql/<%= version %>-main.pid'
 
 # - Connection Settings -
 
-listen_addresses = <%= listen_addresses %>
+listen_addresses = '<%= listen_addresses %>'
 port = 5432
 
 # total number of open connections per server instance
