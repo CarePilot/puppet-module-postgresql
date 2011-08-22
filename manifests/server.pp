@@ -1,20 +1,34 @@
-class postgresql::server($version="8.4",
-                         $listen_addresses='localhost',
+class postgresql::server($version="9.0",
+                         $listen_addresses='*',
                          $max_connections=100,
-                         $shared_buffers='24MB') {
+                         $use_ssl=false,
+                         $durable=true) {
 
   $postgresql = $operatingsystem ? {
     /(?i)(ubuntu|debian)/ => "postgresql-${version}",
     default               => undef,
   }
 
-  package { $postgresql:
+  package { 'rsyslog-pgsql':
     ensure => present,
   }
+  package { $postgresql:
+    ensure => present,
+    require=> File['/etc/apt/preferences.d/postgresql'],
+  }
 
-  File {
-    owner => "postgres",
-    group => "postgres",
+  file { '/etc/apt/preferences.d/postgresql':
+    ensure => present,
+    source => "puppet:///modules/postgresql/preferences/postgresql",
+  }
+
+  file { 'shmmax.conf':
+    path => '/etc/sysctl.d/shmmax.conf',
+    source => 'puppet:///modules/postgresql/sysctl/shmmax.conf',
+  }
+  file { 'shmall.conf':
+    path => '/etc/sysctl.d/shmall.conf',
+    source => 'puppet:///modules/postgresql/sysctl/shmall.conf',
   }
 
   file { "pg_hba.conf":
@@ -35,6 +49,8 @@ class postgresql::server($version="8.4",
     enable => true,
     hasstatus => true,
     hasrestart => true,
+    require => [ File['shmmax.conf'], File['shmall.conf'],
+                 Package['rsyslog-pgsql'] ],
     subscribe => [Package[$postgresql],
                   File["pg_hba.conf"],
                   File["postgresql.conf"]],
