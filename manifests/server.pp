@@ -38,10 +38,14 @@ class postgresql::server($version="9.0",
     require => Package[$postgresql],
   }
 
+  file { '/etc/postgresql':                 ensure => directory }
+  file { '/etc/postgresql/${version}':      ensure => directory, require => File['/etc/postgresql'], }
+  file { '/etc/postgresql/${version}/main': ensure => directory, require => File['/etc/postgresql/${version}'] }
   file { "postgresql.conf":
-    path => "/etc/postgresql/${version}/main/postgresql.conf",
+    path    => "/etc/postgresql/${version}/main/postgresql.conf",
     content => template("postgresql/postgresql.conf.erb"),
-    require => Package[$postgresql],
+    require => [ Package[$postgresql],
+                 File['/etc/postgresql/${version}/main'], ],
   }
 
   service { postgresql:
