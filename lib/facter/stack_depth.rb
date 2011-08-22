@@ -10,6 +10,6 @@ require 'facter'
 
 Facter.add('stack_depth') do
   setcode do
-    %x{ulimit -s}.chomp
+    %x{bash -c 'ulimit -s'}.chomp.to_i
   end
 end
