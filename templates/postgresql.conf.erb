@@ -54,7 +54,7 @@ temp_buffers = <%= memorysizeraw * 0.01 %>MB
 
 work_mem = <%= memorysizeraw * 0.05 %>MB # possibly duplicated memory use
 maintenance_work_mem = <%= memorysizeraw * 0.15 %>MB
-max_stack_depth = <%= stack_depth - 1000 %>kB
+max_stack_depth = <%= stack_depth.to_i - 1000 %>kB
 
 # - Asynchronous Behavior -
 
